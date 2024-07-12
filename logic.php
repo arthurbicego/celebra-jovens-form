@@ -16,7 +16,8 @@ $ministriesLimit = [
     'imagem' => 10,
     'som' => 10,
     'fotos' => 10,
-    'recepcao' => 10,
+    'recepcaomasc' => 5,
+    'recepcaofem' => 5,
     'limpeza' => 32
 ];
 $userAnswers = [];
@@ -105,7 +106,8 @@ function loadPageIsMinistryFull($conn, $ministriesLimit)
         SUM(imagem) AS imagem,
         SUM(som) AS som,
         SUM(fotos) AS fotos,
-        SUM(recepcao) AS recepcao,
+        SUM(recepcaomasc) AS recepcaomasc,
+        SUM(recepcaofem) AS recepcaofem,
         SUM(limpeza) AS limpeza
         FROM users");
     $stmt->execute();
@@ -124,9 +126,9 @@ function loadPageIsMinistryFull($conn, $ministriesLimit)
 function create($conn, $userAnswers)
 {
     $stmt = $conn->prepare("INSERT INTO users (
-nome, email, vocalmasc, vocalfem, violao, teclado, guitarra, bateria, baixo, cozinha, imagem, som, fotos, recepcao, limpeza
+nome, email, vocalmasc, vocalfem, violao, teclado, guitarra, bateria, baixo, cozinha, imagem, som, fotos, recepcaomasc, recepcaofem, limpeza
 ) VALUES (
-:nome, :email, :vocalmasc, :vocalfem, :violao, :teclado, :guitarra, :bateria, :baixo, :cozinha, :imagem, :som, :fotos, :recepcao, :limpeza
+:nome, :email, :vocalmasc, :vocalfem, :violao, :teclado, :guitarra, :bateria, :baixo, :cozinha, :imagem, :som, :fotos, :recepcaomasc, :recepcaofem, :limpeza
 )");
 
     $stmt->bindParam(":nome", $userAnswers["nome"]);
@@ -142,7 +144,8 @@ nome, email, vocalmasc, vocalfem, violao, teclado, guitarra, bateria, baixo, coz
     $stmt->bindParam(":imagem", $userAnswers["imagem"]);
     $stmt->bindParam(":som", $userAnswers["som"]);
     $stmt->bindParam(":fotos", $userAnswers["fotos"]);
-    $stmt->bindParam(":recepcao", $userAnswers["recepcao"]);
+    $stmt->bindParam(":recepcaomasc", $userAnswers["recepcaomasc"]);
+    $stmt->bindParam(":recepcaofem", $userAnswers["recepcaofem"]);
     $stmt->bindParam(":limpeza", $userAnswers["limpeza"]);
 
     $stmt->execute();
@@ -162,23 +165,25 @@ function sendEmail($userAnswers)
         'imagem' => 'Imagem / Projeção',
         'som' => 'Som',
         'fotos' => 'Fotos / Insta',
-        'recepcao' => 'Recepção',
+        'recepcaomasc' => 'Recepção (Masculino)',
+        'recepcaofem' => 'Recepção (Feminino)',
         'limpeza' => 'Limpeza',
     ];
     $ministriesWhatsapp = [
-        'vocalmasc' => 'link do grupo do whatsapp aqui',
-        'vocalfem' => 'link do grupo do whatsapp aqui',
-        'violao' => 'link do grupo do whatsapp aqui',
-        'teclado' => 'link do grupo do whatsapp aqui',
-        'guitarra' => 'link do grupo do whatsapp aqui',
-        'bateria' => 'link do grupo do whatsapp aqui',
-        'baixo' => 'link do grupo do whatsapp aqui',
-        'cozinha' => 'link do grupo do whatsapp aqui',
-        'imagem' => 'link do grupo do whatsapp aqui',
-        'som' => 'link do grupo do whatsapp aqui',
-        'fotos' => 'link do grupo do whatsapp aqui',
-        'recepcao' => 'link do grupo do whatsapp aqui',
-        'limpeza' => 'link do grupo do whatsapp aqui',
+        'vocalmasc' => 'link do grupo do whatsapp LOUVOUR aqui',
+        'vocalfem' => 'link do grupo do whatsapp LOUVOR aqui',
+        'violao' => 'link do grupo do whatsapp LOUVOR aqui',
+        'teclado' => 'link do grupo do whatsapp LOUVOR aqui',
+        'guitarra' => 'link do grupo do whatsapp LOUVOR aqui',
+        'bateria' => 'link do grupo do whatsapp LOUVOR aqui',
+        'baixo' => 'link do grupo do whatsapp LOUVOR aqui',
+        'cozinha' => 'link do grupo do whatsapp COZINHA aqui',
+        'imagem' => 'link do grupo do whatsapp IMAGEM aqui',
+        'som' => 'link do grupo do whatsapp SOM aqui',
+        'fotos' => 'link do grupo do whatsapp FOTOS aqui',
+        'recepcaomasc' => 'link do grupo do whatsapp RECEPCAO aqui',
+        'recepcaofem' => 'link do grupo do whatsapp RECEPCAO aqui',
+        'limpeza' => 'link do grupo do whatsapp LIMPEZA aqui',
     ];
 
     foreach ($userAnswers as $ministry => $choice) {
@@ -224,6 +229,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userAnswers[$keyX] = false;
         };
     }
+
+    $recepcao = [
+      "recepcaomasc",
+      "recepcaofem",
+    ];
+
+    foreach ($recepcao as $keyY) {
+      if ($keyY === $_POST["recepcaoChoice"]) {
+          $userAnswers[$keyY] = true;
+      } else {
+          $userAnswers[$keyY] = false;
+      };
+  }
 
     foreach ($ministriesLimit as $key => $value) {
         if (isset($_POST[$key])) {

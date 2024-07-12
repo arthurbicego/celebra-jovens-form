@@ -150,18 +150,27 @@ require_once($__ROOT__ . "/logic.php");
             <hr class="bg-celebraverde h-0.5">
 
             <!-- RECEPCAO -->
-            <div id="recepcao" class="">
-                <div class="relative">
-                    <label id="recepcaoLabel" class="font-semibold">Recepção</label>
-                    <div class="">
-                        <input type="radio" id="recepcaoFalse" name="recepcao" value="false" checked>
-                        <label for="recepcaoFalse">Não servir</label>
+            <div>
+                <label for="recepcaoChoice" class="font-semibold">Recepção</label>
+                <select name="recepcaoChoice" id="recepcaoChoice" class="block w-50 p-2 border rounded">
+                    <option value="">Selecionar</option>
+                    <option class="" value="recepcaomasc">Masculino</option>
+                    <option class="" value="recepcaofem">Feminino</option>
+                </select>
+                <div id="recepcao" class="">
+                    <div class="relative">
+                        <label id="recepcaoLabel" class="font-semibold"></label>
+                        <div class="my-1">
+                            <input type="radio" id="recepcaoFalse" name="recepcao" value="false" checked>
+                            <label for="recepcaoFalse">Não servir</label>
 
-                        <input type="radio" id="recepcaoTrue" name="recepcao" value="true" class="ml-6">
-                        <label id="recepcaoServir" class="" for="recepcaoTrue">Servir</label>
+                            <input type="radio" id="recepcaoTrue" name="recepcao" value="true" class="ml-6">
+                            <label id="recepcaoServir" class="" for="recepcaoTrue">Servir</label>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <hr class="bg-celebraverde h-0.5">
 

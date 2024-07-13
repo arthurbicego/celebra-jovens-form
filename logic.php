@@ -53,20 +53,23 @@ function validateIsUserRegisteredInMinsitry($userAnswers, $result)
     }
 }
 
-function validateIsUserInMaxMinistries($result)
+function validateIsUserInMaxMinistries($userAnswers, $result)
 {
     $count = 0;
-    foreach ($result[0] as $ministry => $value) {
-        if ($value && $ministry !== 'limpeza' && $ministry !== 'nome' && $ministry !== 'email' && $ministry !== 'id') {
-            $count++;
+
+    foreach($result as $singleResponse => $dataLine) {
+      foreach ($dataLine as $ministry => $value) {
+        if ($value && $ministry !== 'nome' && $ministry !== 'email' && $ministry !== 'id' && $ministry !== 'limpeza') {
+          $count++;
         }
     }
+  }
 
     // Verificar se o usuário já está em 2 ou mais ministérios que não são "limpeza"
-    if ($count >= 2) {
-        return true;
-    } else {
+    if ($count < 2 || $userAnswers['limpeza']) {
         return false;
+    } else {
+        return true;
     }
 }
 
@@ -257,7 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!validateIsUserRegisteredInMinsitry($userAnswers, $result)) {
 
-        if (!validateIsUserInMaxMinistries($result)) {
+        if (!validateIsUserInMaxMinistries($userAnswers, $result)) {
 
             if (!validateIsMinistryFull($conn, $userAnswers, $ministriesLimit)) {
                 create($conn, $userAnswers);

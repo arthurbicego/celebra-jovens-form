@@ -17,6 +17,9 @@
         <p class="my-6"></p>
         <a href="./index.php" class=" text-black mt-4 px-4 py-2 rounded-full">Voltar para o formulário</a>
     </div>
+    <?php
+    echo $result;
+    ?>
 </body>
 
 </body>

@@ -26,6 +26,8 @@ function validateIsUserRegisteredInMinsitry($userAnswers, $result)
 {
     $louvor = ['vocalmasc', 'vocalfem', 'violao', 'teclado', 'guitarra', 'bateria', 'baixo'];
 
+    $recepcao = ['recepcaomasc', 'recepcaofem'];
+
     foreach ($userAnswers as $ministry => $choice) {
         if ($choice === true) {
 
@@ -40,6 +42,16 @@ function validateIsUserRegisteredInMinsitry($userAnswers, $result)
                         }
                     }
                 }
+
+                // Usuário já está na recepção
+                if (in_array($ministry, $recepcao)) {
+
+                  foreach ($dataLine as $key => $value) {
+                      if (in_array($key, $recepcao) && $value) {
+                          return true;
+                      }
+                  }
+              }
 
                 // Usuário já está no ministério escolhido
                 if ($dataLine[$ministry]) {
@@ -172,21 +184,23 @@ function sendEmail($userAnswers)
         'recepcaofem' => 'Recepção (Feminino)',
         'limpeza' => 'Limpeza',
     ];
+
+    // sensitive information
     $ministriesWhatsapp = [
-        'vocalmasc' => 'link do grupo do whatsapp LOUVOUR aqui',
-        'vocalfem' => 'link do grupo do whatsapp LOUVOR aqui',
-        'violao' => 'link do grupo do whatsapp LOUVOR aqui',
-        'teclado' => 'link do grupo do whatsapp LOUVOR aqui',
-        'guitarra' => 'link do grupo do whatsapp LOUVOR aqui',
-        'bateria' => 'link do grupo do whatsapp LOUVOR aqui',
-        'baixo' => 'link do grupo do whatsapp LOUVOR aqui',
-        'cozinha' => 'link do grupo do whatsapp COZINHA aqui',
-        'imagem' => 'link do grupo do whatsapp IMAGEM aqui',
-        'som' => 'link do grupo do whatsapp SOM aqui',
-        'fotos' => 'link do grupo do whatsapp FOTOS aqui',
-        'recepcaomasc' => 'link do grupo do whatsapp RECEPCAO aqui',
-        'recepcaofem' => 'link do grupo do whatsapp RECEPCAO aqui',
-        'limpeza' => 'link do grupo do whatsapp LIMPEZA aqui',
+        'vocalmasc' => 'sensitive information',
+        'vocalfem' => 'sensitive information',
+        'violao' => 'sensitive information',
+        'teclado' => 'sensitive information',
+        'guitarra' => 'sensitive information',
+        'bateria' => 'sensitive information',
+        'baixo' => 'sensitive information',
+        'cozinha' => 'sensitive information',
+        'imagem' => 'sensitive information',
+        'som' => 'sensitive information',
+        'fotos' => 'sensitive information',
+        'recepcaomasc' => 'sensitive information',
+        'recepcaofem' => 'sensitive information',
+        'limpeza' => 'sensitive information',
     ];
 
     foreach ($userAnswers as $ministry => $choice) {

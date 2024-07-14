@@ -1,9 +1,10 @@
 <?php
 
-$db_name = "";
-$db_host = "";
-$db_user = "";
-$db_pass = "";
+// sensitive information
+$db_name = "sensitive information";
+$db_host = "sensitive information";
+$db_user = "sensitive information";
+$db_pass = "sensitive information";
 
 $conn = new PDO("mysql:dbname=" . $db_name . ";host=" . $db_host, $db_user, $db_pass);
 

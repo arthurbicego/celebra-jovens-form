@@ -31,10 +31,10 @@ require_once($__ROOT__ . "/logic.php");
         <div class="">
 
             <ul class="space-y-0.5 italic">
-                <p>- 1 Ministério por formulário.</p>
-                <p>- Usar o mesmo e-mail nos formulários.</p>
-                <p>- Louvor: 1 instrumento por pessoa.</p>
-                <p>- Máx. 2 ministérios por pessoa (o ministério da Limpeza não entra nessa regra).</p>
+              <p>- Preencher 1 ministério por vez, por formulário.</p>
+              <p>- Usar o mesmo e-mail nos formulários.</p>
+              <p>- Louvor: 1 instrumento por pessoa.</p>
+              <p>- Máx. 2 ministérios por pessoa (o ministério da Limpeza não entra nessa regra).</p>
             </ul>
         </div>
 

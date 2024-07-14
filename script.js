@@ -51,11 +51,41 @@ document.addEventListener("DOMContentLoaded", function () {
     labelElementLouvor.classList.add("text-red-600");
   }
 
+  // RECEPCAO ----------------------------------
+  var isRecepcaoFull =
+    ministryVacancies["recepcaomasc"] &&
+    ministryVacancies["recepcaofem"];
+
+  const recepcao = [
+    "recepcaomasc",
+    "recepcaofem",
+  ];
+
+  // Se a recepção estiver cheia
+  if (isRecepcaoFull) {
+    // Desabilitar o botão "Servir"
+    var inputElementRecepcao = document.getElementById("recepcaoTrue");
+    inputElementRecepcao.disabled = true;
+    var choiceLabelRecepcao = document.getElementById("recepcaoServir");
+    choiceLabelRecepcao.style.color = "#cacaca";
+    // Adicionar mensagem de esgotado
+    var labelElementRecepcao = document.getElementById("recepcaoLabel");
+    labelElementRecepcao.innerText += " - Esgotado!";
+    labelElementRecepcao.classList.add("text-red-600");
+  }
+
   // Se o ministério/instrumento estiver cheio
   Object.keys(ministryVacancies).forEach((ministry) => {
     if (ministryVacancies[ministry]) {
       // Se for instrumento do louvor
       if (louvor.includes(ministry)) {
+        var optionToDisable = document.querySelector(
+          "option[value=" + ministry + "]"
+        );
+        optionToDisable.disabled = true;
+        optionToDisable.text = optionToDisable.text + " - Esgotado!";
+        optionToDisable.classList.add("text-red-600");
+      } else if (recepcao.includes(ministry)) {
         var optionToDisable = document.querySelector(
           "option[value=" + ministry + "]"
         );
@@ -117,7 +147,25 @@ document.addEventListener("DOMContentLoaded", function () {
     // Valida Louvor selecionado
     if (!louvorChecked && louvorChoiceValue !== "") {
       alert(
-        "Você selecionou um instrumento, mas quer não clicou para servir no Louvor. Ou retire o instrumento selecionado, ou escolha o louvor para servir."
+        "Você selecionou um instrumento, mas não clicou para servir no Louvor. Ou retire o instrumento selecionado, ou selecione o Louvor para servir."
+      );
+      event.preventDefault(); // Evita o envio do formulário
+      return;
+    }
+
+    // Valida Gênero selecionado
+    var recepcaoChecked = document.getElementById("recepcaoTrue").checked;
+    var recepcaoChoiceValue = document.getElementById("recepcaoChoice").value;
+    if (recepcaoChecked && recepcaoChoiceValue === "") {
+      alert("Você deve selecionar um gênero na recepção.");
+      event.preventDefault(); // Evita o envio do formulário
+      return;
+    }
+
+    // Valida Recepção selecionado
+    if (!recepcaoChecked && recepcaoChoiceValue !== "") {
+      alert(
+        "Você selecionou um gênero na Recepção, mas não clicou para servir no Recepção. Ou retire o gênero selecionado, ou selecione a Recepção para servir."
       );
       event.preventDefault(); // Evita o envio do formulário
       return;
